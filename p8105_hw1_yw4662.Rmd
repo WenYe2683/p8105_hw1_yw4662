@@ -1,5 +1,44 @@
 ---
 title: "p8105_hw1_yw4662"
-output: html_document
+output: github_document
 ---
+### Setup
+```{r}
+library(moderndive) # load the moderndive dataset
+library(ggplot2) # load plotting
+data("early_january_weather") #load the early_january_weather dataset from moderndive data
+```
+
+### Short description of the dataset
+This dataset contains hourly weather observations for NYC airports over early January.
+
+* **Time span**: from `r format(min(early_january_weather$time_hour),"%Y-%m-%d %H:%M")` to `r format(max(early_january_weather$time_hour),"%Y-%m-%d %H:%M")`.
+
+* **Size**: `r nrow(early_january_weather)` rows $\times$ `r ncol(early_january_weather)` columns.
+
+* **Variables**: `r paste(names(early_january_weather), collapse = ", ")`.
+
+* **Mean air temperature**: `r round(mean(early_january_weather$temp, na.rm=TRUE),1)`°F
+
+### Scatterplot: `temp` vs `time_hour`, colored by `humid`
+```{r}
+ggplot(early_january_weather,
+            aes(x = time_hour, y = temp, color = humid)) +
+  geom_point(alpha = 0.7, size = 1.3) +
+  labs(
+    title = "Temperature over time, colored by relative humidity",
+    x = "Time (hourly)",
+    y = "Temperature (°F)",
+    color = "Humidity"
+  )
+```
+
+### Brief description of patterns
+Temperatures fluctuate in daily cycles, generally cooler overnight and warmer during daytime. Points with lower humidity (darker colors) tend to appear during cooler periods, suggesting a direct relationship between temperature and relative humidity.
+
+```{r}
+ggsave(
+  filename = "temp_vs_time_hour_by_humid.png"
+)
+```
 
